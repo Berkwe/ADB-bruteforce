@@ -1,6 +1,6 @@
 # ADB Brute Force
 
-* Bu repo, Android Debug Bridge (ADB) protokolünü kullanarak cihazlarda oturum açma denemeleri yapmak için bir araç içerir. ADB Brute Force, ip-port kombinasyonlarını deneyerek cihazlara erişim sağlamaya çalışır.
+* Bu repo, Android Debug Bridge (ADB) protokolünü kullanarak Wirelles ADB'nin açık olduğu cihazları tespit etmek için yapılmıştır. ADB Brute Force, ip-port kombinasyonlarını deneyerek cihazlara erişim sağlamaya çalışır.
 * Wirellese bağlanmak bir nevi androidde back door oluşturmak gibidir. Uzaktan shell kodları çalıştırabilirsiniz!
 
 # Kurulum
