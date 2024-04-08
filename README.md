@@ -26,7 +26,7 @@ NOT : dev, kali üzeridne test ettiğinde çalışmıyordu. İsterseniz indirip 
 
 * Bu programı doğru kullanmanız için cihazınızın bağlanmak istediğiniz cihazla pairlanmış olması gerekir.
 * Bu program sadece açık adb portlarını bulmak için tasarlanmıştır.
-* Android 9'dan önceki süürmlerde adb portu varsayılan olarak 5555'dir.
+* Android 9'dan önceki sürümlerde ADB portu varsayılan olarak 5555'dir.
 * Kullanımından kesinlikle ben sorumlu değilim, sadece eğitici amaçla kullanın.
 
 # Lisans
