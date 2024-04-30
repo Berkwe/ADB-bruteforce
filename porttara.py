@@ -22,7 +22,7 @@ def scan_port(host, port):
                 avabileports.append(port)
     except Exception as f:
         print("Hata oluştu :",f)
-taranan = [30000,30000]
+taranan = [30000,40000]
 def tara(host):
     try:
 
