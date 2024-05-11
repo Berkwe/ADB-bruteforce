@@ -22,19 +22,16 @@ def scan_port(host, port):
                 avabileports.append(port)
     except Exception as f:
         print("Hata oluştu :",f)
-taranan = [30000,40000]
+
+
+taranan = [30000, 40000]
 def tara(host):
-    try:
-
-        cevap = subprocess.check_output(f"ping {host}", shell=True, text=True)
-        if "unreachable" in cevap.lower():
-            print("*HATA : Host cevap vermiyor.*")
-            sys.exit()
-    except subprocess.CalledProcessError as e:
-        print("*HATA : Girdiğiniz ip yanlış.")
-        sys.exit()
+    threds = []
     for port in range(taranan[0], taranan[1]):
-        threading.Thread(target=scan_port, args=(host, port)).start()
+        thread = threading.Thread(target=scan_port, args=(host, port))
+        threds.append(thread)
+        thread.start()
+    for thread in threds:
+        thread.join()
     taranan[0] = taranan[1]
-    taranan[1] += 10000
-
+    taranan[1] += 10000 
