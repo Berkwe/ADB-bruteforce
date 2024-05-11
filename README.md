@@ -11,10 +11,12 @@
 3. Son olarak `main.py` dosyasını çalıştırın
 
 ## Linux tabanlı dağıtımlar
-NOT : dev, kali üzeridne test ettiğinde çalışmıyordu. İsterseniz indirip test edin.
+NOT : ÖNERİLMEZ. Dev, kalide test ettiğinde birçok hata ve geç tarama sorunuyla karşılaştı.
 1. Öncelikle repoyu klonlayın `git clone https://github.com/Berkwe/ADB-bruteforce/`
 2. Sonrasında ADB toolsu kurmamız gerek bunun için `apt-get install android-tools-adb && apt-get install android-tools-fastboot`(fastboot isteğe bağlıdır)
 3. Son olarak `main.py` dosyasını çalıştırın
+4. Eğer `[Errno 24] Too many open files` gibi bir hatayla karşılaştıysanız, root bir termiale `ulimit -n 18000` yazmayı deneyin.
+
 
 # Kullanım
 1. Sonrasında `main.py` dosyasını çalıştırın.
