@@ -2,15 +2,18 @@ import socket
 import threading
 import sys
 import subprocess
+
+error = "[!] "
+
 #coded by berkwe_
 avabileports = []
 debug = False
 # Port taramak için bir fonksiyon
 def scan_port(host, port):
     try:
-        # TCP isteği at (socket modulu ile max bu)
+        # TCP isteği atar ve cevap bekler(linuxda sıkıntılı olan kısım bu)
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            # deneme yap
+            # Deneme yap
             result = sock.connect_ex((host, port))
             if debug == True:
 
@@ -18,10 +21,10 @@ def scan_port(host, port):
             # Cevap gelirse port açık
             if result == 0:
 
-                #avable ports listesine eklersin ve main dosyasında çağrırsın
+                # Avabile ports listesine ekler.
                 avabileports.append(port)
     except Exception as f:
-        print("Hata oluştu :",f)
+        print(f"{error}HATA : ",f)
 
 
 taranan = [30000, 40000]
