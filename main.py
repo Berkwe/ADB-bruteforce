@@ -1,100 +1,93 @@
+import porttara, subprocess, os, time
 
-from ast import arg
-from concurrent.futures import thread
-import porttara
-import subprocess
-import os
-import time
-if os.name == 'posix':  # Linux tabanlı işletim sistemi
-    sil = "clear"
-elif os.name == 'nt':   # Windows işletim sistemi
-    sil = "cls"
-else:
-    print("Bu işletim sistemi desteklenmiyor.")
-    sys.exit()
-#coded by berkwe_
+# [*] Coded by berkwe_
+
+info = "[*] "
+error = "[!] "
+
 bitiş = False
 
 adbports = []
-os.system(sil)
 
-print("REMOTE ADB BULUCU TOOL".center(200,"-"))
+if os.name == 'posix':  # Linux tabanlı işletim sistemi
+    sil = "clear"
+elif os.name == 'nt':   # Windows işletim sistemi
+    os.system("color a")
+    sil = "cls"
+else:
+    print(f"{error}HATA : Bu işletim sistemi desteklenmiyor.")
+    sys.exit()
+
+try:
+    from prettytable import PrettyTable, DOUBLE_BORDER
+except ModuleNotFoundError:
+    print(f"{info}Gereklilikler indiriliyor...")
+    os.system("pip install prettytable")
+    from prettytable import PrettyTable, DOUBLE_BORDER
+
+
+
+os.system(sil)
+print("REMOTE ADB FİNDER".center(200,"-"))
 while True:
-    ip = input("Wirelles ADB'nin açık olduğu ip adres : ") #Taranacak ip adresi
-    if ip == "debug":
+    ip = input("Wirelles ADB'nin açık olduğu ip adres : \n>>> ") # Taranacak ip adresi
+    if ip == "debug" and not porttara.debug:
         porttara.debug = True
         os.system(sil)
-        print("Debug mod açıldı")
+        print(f"{info}Debug mod açıldı")
         continue
 
-    elif not ip or "." not in ip: 
-        os.system(sil)
-        print("LÜTFEN GEÇERLİ BİR İP GİRİN")
+    elif not ip or "." not in ip or len([i for i in ip if i == "."]) != 3 or len(ip.replace(".","")) > 12 or len(ip.replace(".","")) < 4 or ip.replace(".","").isdigit() == False:
+        print(f"{error}HATA : LÜTFEN GEÇERLİ BİR İP GİRİN!")
         continue
-    
-    elif len([i for i in ip if i == "."]) != 3 or len(ip.replace(".","")) > 12 or len(ip.replace(".","")) < 4 or ip.replace(".","").isdigit() == False:
-        print("LÜTFEN GEÇERLİ BİR İP GİRİN!")
-        continue
+    break
 
-    pair  = input("Cihaz eşleştirildimi? (E/H) : ").lower()
-    
-    if pair == "h":
-        os.system(sil)
-        print("Pair brute force yakında!")
-        break
-    elif pair == "e":
-        os.system(sil)
-        break
-    else:
-        os.system(sil)
-        print("EVET(E)/HAYIR(H) KULLANIN.")
-print(f"İP Belirlendi({ip}), olası ADB portları taranıyor...")
+print(f"{info}İP Belirlendi({ip}), olası ADB portları taranıyor...")
 
-def dene(): #ADB Bağlantı testi
+def dene(): # ADB Bağlantı testi
+    global bitiş
     try:
-        if not porttara.avabileports: 
-            print("Hiç açık port bulunamadı hedef bilgisayarda wirelles adb kapalı.") 
-        else:
-            subprocess.check_output("adb disconnect")
-            for port in porttara.avabileports:
-                cevap = subprocess.check_output(f"adb connect {ip}:{port}", shell=True, text=True)
-                if str(cevap).startswith("connected to") and port not in adbports:
-                    adbports.append(port)
-                    print(f"ADB serveri bulundu : {ip}:{port}")
-                    while True:
-                        soru = input("Taramaya devam etmek istermisiniz?[E/H] : ")
-                        if soru.lower() == "e":
-                            break
-                        elif soru.lower() == "h":
-                            bitiş = True
-                            break
-                        else:
-                            print("EVET VEYA HAYIR GİRİN!")
-                            continue
+        subprocess.check_output("adb disconnect", shell=True, text=False)
+        for port in porttara.avabileports:
+            cevap = subprocess.check_output(f"adb connect {ip}:{port}", shell=True, text=True)
+            if str(cevap).startswith("connected to") and port not in adbports:
+                adbports.append(port)
+                print(f"{info}ADB serveri bulundu : {ip}:{port}")
+                while True:
+                    soru = input("Taramaya devam etmek istermisiniz?[E/H] : \n>>> ")
+                    if soru.lower() == "e":
+                        break
+                    elif soru.lower() == "h":
+                        bitiş = True
+                        break
+                    else:
+                        print(f"{error}HATA : EVET VEYA HAYIR GİRİN!")
+                        continue
     except Exception as f:
-        print("Bir hata oluştu", f)
+        print(f"{error}HATA : ", f)
 
 başlama = time.time() # Ölçüm
 
-for _ in range(2):
+for _ in range(3):
     if bitiş == False: #Bitiş false ise devam eder
         porttara.tara(ip) #Hostu tarar
         if porttara.avabileports: #eğer açık port varsa deneme yapar
             dene()
     else: #değilse döngüyü kır
         break
-print("\t\t\tPROGRAM BİTTİ!\n\t---------------------------------------------------\n")
-print("\t\tAçık portlar : ", end="")
-for i in porttara.avabileports:
-    print(i, end=" , ")
-print("\t\t\n\n\t---------------------------------------------------\n")
-print("\t\tAçık adb portları : ",end='')
-for i in adbports:
-    print(f"{i}", end=" , ")
-print(f"\t\t\n\n\t---------------------------------------------------\nGeçen zaman : {time.time()-başlama}")
-
-            
 
 
+table = PrettyTable() # Tablo oluştur
 
+print(f"Program bitti!".center(200))
 
+table.field_names = ["Açık portlar","Açık ADBS"]
+
+# Verileri tabloya ekleme
+table.add_row([", ".join(map(str, porttara.avabileports)), ", ".join(map(str, adbports))])
+table.set_style(DOUBLE_BORDER)
+
+# Sütun hizalamasını değiştirme
+table.align = "l"
+print(table)
+print(time.time()-başlama)
