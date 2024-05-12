@@ -69,15 +69,15 @@ def dene(): # ADB Bağlantı testi
 başlama = time.time() # Ölçüm
 
 for _ in range(3):
-    if bitiş == False: #Bitiş false ise devam eder
-        porttara.tara(ip) #Hostu tarar
-        if porttara.avabileports: #eğer açık port varsa deneme yapar
+    if bitiş == False: # Bitiş false ise devam eder
+        porttara.tara(ip) # Hostu tarar
+        if porttara.avabileports: # Eğer açık port varsa deneme yapar
             dene()
-    else: #değilse döngüyü kır
+    else: # Değilse döngüyü kır
         break
 
 
-table = PrettyTable() # Tablo oluştur
+table = PrettyTable() # Bir tablo oluşturur
 
 print(f"Program bitti!".center(200))
 
@@ -90,4 +90,4 @@ table.set_style(DOUBLE_BORDER)
 # Sütun hizalamasını değiştirme
 table.align = "l"
 print(table)
-print(time.time()-başlama)
+print(f"\nGeçen süre : {time.time()-başlama}")
