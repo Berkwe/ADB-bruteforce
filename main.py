@@ -1,6 +1,6 @@
 import porttara, subprocess, os, time
 
-# [*] Coded by berkwe_
+# Coded by berkwe_
 
 info = "[*] "
 error = "[!] "
